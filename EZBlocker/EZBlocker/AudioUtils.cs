@@ -18,7 +18,7 @@ namespace EZBlocker
 
         public static void SendNextTrack(IntPtr target)
         {
-            SendMessage(target, WM_APPCOMMAND, IntPtr.Zero, (IntPtr)MEDIA_PLAYPAUSE);
+            SendMessage(target, WM_APPCOMMAND, IntPtr.Zero, (IntPtr)MEDIA_NEXTTRACK);
         }
 
         public static bool? IsMuted(ISimpleAudioVolume v)
