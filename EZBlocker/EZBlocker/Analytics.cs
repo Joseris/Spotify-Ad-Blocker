@@ -9,7 +9,7 @@ namespace EZBlocker
     class Analytics
     {
         private const string url = "https://www.google-analytics.com/collect";
-        private const string tid = "UA-42480515-3";
+        private const string tid = "UA-130412616-1";
 
         private readonly HttpClient client = new HttpClient();
         private readonly string cid;
@@ -39,14 +39,14 @@ namespace EZBlocker
             var data = new Dictionary<string, string>
             {
                 { "v", "1" },
-                { "tid", "UA-42480515-3" },
+                { "tid", tid },
                 { "t", "pageview" },
                 { "cid", cid }, // client id
                 { "cm", cm }, // Campaign medium, EZBlocker version
                 { "cn", "EZBlocker Windows" }, // Campaign name
                 { "cs", cs}, // Campaign source, OS Version
                 { "ul", ul }, // User Language
-                { "dh", "ezblocker.ericzhang.me" },
+                { "dh", "ezblocker.juozasurbonas.me" },
                 { "dp", action },
             };
 
