@@ -60,12 +60,8 @@ namespace EZBlocker
                         }
 
                         string artist = hook.GetArtist();
-                        string message = Properties.strings.StatusMuting + " " + Truncate(artist);
-                        if (lastMessage != message)
+                        if (SetStatusText(Properties.strings.StatusMuting, artist))
                         {
-                            lastMessage = message;
-                            StatusLabel.Text = message;
-                            artistTooltip.SetToolTip(StatusLabel, artist);
                             LogAction("/mute/" + artist);
                         }
                     }
@@ -79,36 +75,20 @@ namespace EZBlocker
                         if (MainTimer.Interval != 400) MainTimer.Interval = 400;
 
                         string artist = hook.GetArtist();
-                        string message = Properties.strings.StatusPlaying + " " + Truncate(artist);
-                        if (lastMessage != message)
+                        if (SetStatusText(Properties.strings.StatusPlaying, artist))
                         {
-                            lastMessage = message;
-                            StatusLabel.Text = message;
-                            artistTooltip.SetToolTip(StatusLabel, artist);
                             LogAction("/play/" + artist);
                         }
                     }
                     else if (hook.WindowName.Equals("Spotify"))
                     {
-                        string message = Properties.strings.StatusPaused;
-                        if (lastMessage != message)
-                        {
-                            lastMessage = message;
-                            StatusLabel.Text = message;
-                            artistTooltip.SetToolTip(StatusLabel, "");
-                        }
+                        SetStatusText(Properties.strings.StatusPaused, string.Empty);
                     }
                 }
                 else
                 {
                     if (MainTimer.Interval != 1000) MainTimer.Interval = 1000;
-                    string message = Properties.strings.StatusNotFound;
-                    if (lastMessage != message)
-                    {
-                        lastMessage = message;
-                        StatusLabel.Text = message;
-                        artistTooltip.SetToolTip(StatusLabel, "");
-                    };
+                    SetStatusText(Properties.strings.StatusNotFound, string.Empty);
                 }
             }
             catch (Exception ex)
@@ -116,7 +96,20 @@ namespace EZBlocker
                 Debug.WriteLine(ex);
             }
         }
-       
+
+        private bool SetStatusText(string statusText, string artist)
+        {
+            string message = statusText + (!string.IsNullOrWhiteSpace(artist) ? " " + Truncate(artist) : string.Empty);
+            if (lastMessage != message)
+            {
+                lastMessage = message;
+                StatusLabel.Text = message;
+                artistTooltip.SetToolTip(StatusLabel, artist);
+                return true;
+            }
+            return false;
+        }
+
         /**
          * Mutes/Unmutes Spotify.
          
