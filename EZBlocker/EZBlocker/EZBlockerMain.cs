@@ -49,7 +49,15 @@ namespace EZBlocker
             try {
                 if (hook.IsRunning())
                 {
-                    if (hook.ShouldMute() && hook.IsPlaying())
+                    if (hook.IsPlaying() && hook.ShouldSkip())
+                    {
+                        string artist = hook.GetArtist();
+                        LogAction("/skip/" + artist);
+
+                        AudioUtils.SendNextTrack(hook.Handle == IntPtr.Zero ? Handle : hook.Handle);
+                        Thread.Sleep(500);
+                    }
+                    else if (hook.ShouldMute() && hook.IsPlaying())
                     {
                         if (MainTimer.Interval != 1000) MainTimer.Interval = 1000;
                         if (!muted) Mute(true);

@@ -53,7 +53,9 @@ namespace EZBlocker
         {
             if (!WindowName.Equals("") && !WindowName.Equals("Drag"))
             {
-                if (WindowName.Equals("Spotify")) // Prevent user pausing Spotify from being detected as ad (PeakVolume needs time to adjust)
+                var artist = GetArtist();
+                if (WindowName.Equals("Spotify") || // Prevent user pausing Spotify from being detected as ad (PeakVolume needs time to adjust)
+                    Properties.Settings.Default.MuteList.Contains(artist))
                 {
                     Debug.WriteLine("Ad1: " + lastPeak.ToString() + " " + peak.ToString());
                     return true;
@@ -63,6 +65,16 @@ namespace EZBlocker
                     Debug.WriteLine("Ad2: " + lastPeak.ToString() + " " + peak.ToString());
                     return true;
                 }
+            }
+            return false;
+        }
+
+        public bool ShouldSkip()
+        {
+            var artist = GetArtist();
+            if (Properties.Settings.Default.SkipList.Contains(artist))
+            {
+                return true;
             }
             return false;
         }
