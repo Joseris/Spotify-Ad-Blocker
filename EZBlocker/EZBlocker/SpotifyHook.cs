@@ -49,9 +49,9 @@ namespace EZBlocker
             return peak > 0 && lastPeak > 0;
         }
 
-        public bool IsAdPlaying()
+        public bool ShouldMute()
         {
-            if (!WindowName.Equals("") && !WindowName.Equals("Drag") && IsPlaying())
+            if (!WindowName.Equals("") && !WindowName.Equals("Drag"))
             {
                 if (WindowName.Equals("Spotify")) // Prevent user pausing Spotify from being detected as ad (PeakVolume needs time to adjust)
                 {

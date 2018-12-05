@@ -49,15 +49,10 @@ namespace EZBlocker
             try {
                 if (hook.IsRunning())
                 {
-                    if (hook.IsAdPlaying())
+                    if (hook.ShouldMute() && hook.IsPlaying())
                     {
                         if (MainTimer.Interval != 1000) MainTimer.Interval = 1000;
                         if (!muted) Mute(true);
-                        if (!hook.IsPlaying())
-                        {
-                            AudioUtils.SendNextTrack(hook.Handle == IntPtr.Zero ? Handle : hook.Handle);
-                            Thread.Sleep(500);
-                        }
 
                         string artist = hook.GetArtist();
                         if (SetStatusText(Properties.strings.StatusMuting, artist))
