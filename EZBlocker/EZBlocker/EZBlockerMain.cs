@@ -288,7 +288,13 @@ namespace EZBlocker
             {
                 this.ShowInTaskbar = false;
                 this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-                Notify(Properties.strings.HiddenNotify);
+
+                if (!Properties.Settings.Default.UserEducatedExitRunning)
+                {
+                    Notify(Properties.strings.HiddenNotify);
+                    Properties.Settings.Default.UserEducatedExitRunning = true;
+                    Properties.Settings.Default.Save();
+                }
             }
         }
 

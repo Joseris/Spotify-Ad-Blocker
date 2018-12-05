@@ -82,5 +82,17 @@ namespace EZBlocker.Properties {
                 this["LastPatched"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UserEducatedExitRunning {
+            get {
+                return ((bool)(this["UserEducatedExitRunning"]));
+            }
+            set {
+                this["UserEducatedExitRunning"] = value;
+            }
+        }
     }
 }
