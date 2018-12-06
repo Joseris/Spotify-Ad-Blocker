@@ -99,6 +99,15 @@ namespace EZBlocker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Added {0} to skip list!.
+        /// </summary>
+        internal static string NotifyAddedToSkipList {
+            get {
+                return ResourceManager.GetString("NotifyAddedToSkipList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spotify ads will not be muted if EZBlocker is not running.
         ///
         ///Are you sure you want to exit?.

@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="AudioUtils.cs" />
     <Compile Include="Analytics.cs" />
+    <Compile Include="KeyboardHook.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="Properties\strings.Designer.cs">
       <AutoGen>True</AutoGen>

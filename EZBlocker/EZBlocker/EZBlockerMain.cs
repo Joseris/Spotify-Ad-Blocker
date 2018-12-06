@@ -35,8 +35,13 @@ namespace EZBlocker
         private Listener listener;
         private SpotifyHook hook;
 
+        private KeyboardHook keyboardHook = new KeyboardHook();
+
         public Main()
         {
+            keyboardHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(keyboardHook_KeyPressed);
+            keyboardHook.RegisterHotKey(EZBlocker.ModifierKeys.Control | EZBlocker.ModifierKeys.Alt | EZBlocker.ModifierKeys.Shift, Keys.S);
+
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
             InitializeComponent();
         }
@@ -437,5 +442,22 @@ namespace EZBlocker
 
         [DllImport("shell32.dll")]
         public static extern bool IsUserAnAdmin();
+
+        void keyboardHook_KeyPressed(object sender, KeyPressedEventArgs e)
+        {
+            if (e.Modifier.HasFlag(EZBlocker.ModifierKeys.Control) && e.Modifier.HasFlag(EZBlocker.ModifierKeys.Alt)
+                 && e.Modifier.HasFlag(EZBlocker.ModifierKeys.Shift) && e.Key.HasFlag(Keys.S))
+            {
+                var artist = hook.GetArtist();
+                if (!string.IsNullOrWhiteSpace(artist) &&
+                    !Properties.Settings.Default.SkipList.Contains(artist))
+                {
+                    Properties.Settings.Default.SkipList.Add(artist);
+                    Notify(string.Format(Properties.strings.NotifyAddedToSkipList, artist));
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+
     }
 }
