@@ -71,6 +71,10 @@ namespace EZBlocker
 
         public bool ShouldSkip()
         {
+            if (Properties.Settings.Default.SkipList.Contains(WindowName))
+            {
+                return true;
+            }
             var artist = GetArtist();
             if (Properties.Settings.Default.SkipList.Contains(artist))
             {

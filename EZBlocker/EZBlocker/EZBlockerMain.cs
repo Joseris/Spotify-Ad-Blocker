@@ -41,6 +41,7 @@ namespace EZBlocker
         {
             keyboardHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(keyboardHook_KeyPressed);
             keyboardHook.RegisterHotKey(EZBlocker.ModifierKeys.Control | EZBlocker.ModifierKeys.Alt | EZBlocker.ModifierKeys.Shift, Keys.S);
+            keyboardHook.RegisterHotKey(EZBlocker.ModifierKeys.Control | EZBlocker.ModifierKeys.Alt | EZBlocker.ModifierKeys.Shift, Keys.A);
 
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
             InitializeComponent();
@@ -446,14 +447,22 @@ namespace EZBlocker
         void keyboardHook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
             if (e.Modifier.HasFlag(EZBlocker.ModifierKeys.Control) && e.Modifier.HasFlag(EZBlocker.ModifierKeys.Alt)
-                 && e.Modifier.HasFlag(EZBlocker.ModifierKeys.Shift) && e.Key.HasFlag(Keys.S))
+                 && e.Modifier.HasFlag(EZBlocker.ModifierKeys.Shift))
             {
-                var artist = hook.GetArtist();
-                if (!string.IsNullOrWhiteSpace(artist) &&
-                    !Properties.Settings.Default.SkipList.Contains(artist))
+                string skip = null;
+                if (e.Key.HasFlag(Keys.S))
                 {
-                    Properties.Settings.Default.SkipList.Add(artist);
-                    Notify(string.Format(Properties.strings.NotifyAddedToSkipList, artist));
+                    skip = hook.WindowName;
+                }
+                else if (e.Key.HasFlag(Keys.A))
+                {
+                    skip = hook.GetArtist();
+                }
+                if (!string.IsNullOrWhiteSpace(skip) &&
+                    !Properties.Settings.Default.SkipList.Contains(skip))
+                {
+                    Properties.Settings.Default.SkipList.Add(skip);
+                    Notify(string.Format(Properties.strings.NotifyAddedToSkipList, skip));
                     Properties.Settings.Default.Save();
                 }
             }
