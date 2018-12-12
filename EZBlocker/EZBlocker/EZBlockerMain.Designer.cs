@@ -45,6 +45,8 @@
             this.BlockBannersCheckbox = new System.Windows.Forms.CheckBox();
             this.StartupCheckbox = new System.Windows.Forms.CheckBox();
             this.SpotifyCheckbox = new System.Windows.Forms.CheckBox();
+            this.EnableAnalyticsCheckBox = new System.Windows.Forms.CheckBox();
+            this.CheckForUpdateCheckBox = new System.Windows.Forms.CheckBox();
             this.NotifyIconContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,10 +157,24 @@
             this.SpotifyCheckbox.UseVisualStyleBackColor = true;
             this.SpotifyCheckbox.CheckedChanged += new System.EventHandler(this.SpotifyCheckbox_CheckedChanged);
             // 
+            // EnableAnalyticsCheckBox
+            // 
+            resources.ApplyResources(this.EnableAnalyticsCheckBox, "EnableAnalyticsCheckBox");
+            this.EnableAnalyticsCheckBox.Name = "EnableAnalyticsCheckBox";
+            this.EnableAnalyticsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // CheckForUpdateCheckBox
+            // 
+            resources.ApplyResources(this.CheckForUpdateCheckBox, "CheckForUpdateCheckBox");
+            this.CheckForUpdateCheckBox.Name = "CheckForUpdateCheckBox";
+            this.CheckForUpdateCheckBox.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CheckForUpdateCheckBox);
+            this.Controls.Add(this.EnableAnalyticsCheckBox);
             this.Controls.Add(this.SpotifyCheckbox);
             this.Controls.Add(this.StartupCheckbox);
             this.Controls.Add(this.BlockBannersCheckbox);
@@ -193,6 +209,8 @@
         private System.Windows.Forms.ToolStripMenuItem websiteToolStripMenuItem;
         private System.Windows.Forms.CheckBox SpotifyCheckbox;
         private System.Windows.Forms.ToolStripMenuItem undoPatchToolStripMenuItem;
+        private System.Windows.Forms.CheckBox EnableAnalyticsCheckBox;
+        private System.Windows.Forms.CheckBox CheckForUpdateCheckBox;
     }
 }
 

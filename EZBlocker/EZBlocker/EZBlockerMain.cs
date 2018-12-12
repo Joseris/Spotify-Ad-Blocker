@@ -45,6 +45,12 @@ namespace EZBlocker
 
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
             InitializeComponent();
+
+            EnableAnalyticsCheckBox.Checked = Properties.Settings.Default.EnableAnalytics;
+            this.EnableAnalyticsCheckBox.CheckedChanged += new System.EventHandler(this.EnableAnalyticsCheckBox_CheckedChanged);
+
+            CheckForUpdateCheckBox.Checked = Properties.Settings.Default.CheckForUpdate;
+            this.CheckForUpdateCheckBox.CheckedChanged += new System.EventHandler(this.CheckForUpdateCheckBox_CheckedChanged);
         }
 
         /**
@@ -167,10 +173,13 @@ namespace EZBlocker
 
         private void LogAction(string action)
         {
-            if (lastAction.Equals(action) && DateTime.Now - lastRequest < TimeSpan.FromMinutes(5)) return;
-            Task.Run(() => a.LogAction(action));
-            lastAction = action;
-            lastRequest = DateTime.Now;
+            if (Properties.Settings.Default.EnableAnalytics)
+            {
+                if (lastAction.Equals(action) && DateTime.Now - lastRequest < TimeSpan.FromMinutes(5)) return;
+                Task.Run(() => a.LogAction(action));
+                lastAction = action;
+                lastRequest = DateTime.Now;
+            }
         }
 
         /**
@@ -225,7 +234,7 @@ namespace EZBlocker
                 }
             }
             SpotifyCheckbox.Checked = Properties.Settings.Default.StartSpotify;
-            
+
             // Set up Analytics
             if (String.IsNullOrEmpty(Properties.Settings.Default.CID))
             {
@@ -245,7 +254,10 @@ namespace EZBlocker
 
             LogAction("/launch");
 
-            Task.Run(() => CheckUpdate());
+            if (Properties.Settings.Default.CheckForUpdate)
+            {
+                Task.Run(() => CheckUpdate());
+            }
         }
 
         private void CheckPatch(bool launch)
@@ -468,5 +480,18 @@ namespace EZBlocker
             }
         }
 
+        private void EnableAnalyticsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableAnalytics = EnableAnalyticsCheckBox.Checked;
+            Properties.Settings.Default.Save();
+            LogAction("/settings/enableAnalytics/" + EnableAnalyticsCheckBox.Checked.ToString());
+        }
+
+        private void CheckForUpdateCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CheckForUpdate = CheckForUpdateCheckBox.Checked;
+            Properties.Settings.Default.Save();
+            LogAction("/settings/checkForUpdate/" + EnableAnalyticsCheckBox.Checked.ToString());
+        }
     }
 }
